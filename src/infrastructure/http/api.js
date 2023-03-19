@@ -2,10 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const RegisterUser = require('../../application/registerUser');
 const ListUsers = require('../../application/listUsers');
 const UserMongoRepository = require('../database/userMongoRepository');
-const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const UpdateUser = require('../../application/updateUser');
 
@@ -44,7 +44,10 @@ app.post('/register', async (req, res) => {
       password: hashedPassword,
     });
 
-    res.sendStatus(201);
+    res.status(201).send({
+      status: 201,
+      message: 'Created',
+    });
   } catch (error) {
     process.stderr.write(`${error.stack}\n`);
     res.status(500).send(error.message);
@@ -60,8 +63,6 @@ app.post('/login', async (req, res) => {
     if (!user) {
       return res.sendStatus(404);
     }
-
-    console.log(password, user);
 
     const isSamePassword = await bcrypt.compare(password, user.password);
 
@@ -108,17 +109,6 @@ app.put('/profile/:userId', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
-// app.get('/users', async (req, res) => {
-//   try {
-//     const listUsers = new ListUsers(new UserMongoRepository());
-//     const users = await listUsers.execute();
-//     res.send(users);
-//   } catch (error) {
-//     process.stderr.write(`${error.stack}\n`);
-//     res.status(500).send(error.message);
-//   }
-// });
 
 app.listen(port, () => {
   process.stdout.write(`Server listening on port: ${port}\n`);
