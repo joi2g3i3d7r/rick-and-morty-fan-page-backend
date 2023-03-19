@@ -9,6 +9,8 @@ class RegisterUser {
       this.userRepository.findByNickname(user.nickname),
     ]);
 
+    console.log(existingUserByEmail);
+
     if (existingUserByEmail) {
       throw new Error('Email already in use');
     }

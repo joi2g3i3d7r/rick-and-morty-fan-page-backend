@@ -12,5 +12,6 @@ module.exports = {
   rules: {
     'linebreak-style': ['error', 'windows'],
     'class-methods-use-this': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

@@ -1,5 +1,29 @@
 {
-  "semi": true,
+  "printWidth": 100,
+  "tabWidth": 2,
   "singleQuote": true,
-  "tabWidth": 2
+  "trailingComma": "es5",
+  "semi": true,
+  "bracketSpacing": true,
+  "jsxBracketSameLine": false,
+  "arrowParens": "always",
+  "object-curly-newline": {
+    "ObjectExpression": {
+      "consistent": true,
+      "multiline": true,
+      "minProperties": 2
+    },
+    "ObjectPattern": {
+      "consistent": true,
+      "multiline": true
+    },
+    "ImportDeclaration": {
+      "consistent": true,
+      "multiline": true
+    },
+    "ExportDeclaration": {
+      "consistent": true,
+      "multiline": true
+    }
+  }
 }
