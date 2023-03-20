@@ -8,6 +8,8 @@ const ListUsers = require('../../application/listUsers');
 const UserMongoRepository = require('../database/userMongoRepository');
 const config = require('../config/config');
 const UpdateUser = require('../../application/updateUser');
+const AddFavoriteCharacter = require('../../application/addFavoriteCharacter');
+const ListFavoriteCharacters = require('../../application/listFavoriteCharacters');
 
 mongoose.connect('mongodb://localhost:27017/TheRickAndMortyDatabaseDemo', {
   useNewUrlParser: true,
@@ -73,18 +75,20 @@ app.post('/login', async (req, res) => {
       });
     }
 
-    const payload = { claims: { fullname: user.fullname } };
+    const payload = {
+      claims: {
+        id: user.id,
+        fullname: user.fullname,
+        nickname: user.nickname,
+      },
+    };
+
     const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '1d' });
 
     res.send({
       status: 200,
       message: 'Authentication successful',
-      user: {
-        id: user.id,
-        fullname: user.fullname,
-        nickname: user.nickname,
-        accessToken: token,
-      },
+      accessToken: token,
     });
   } catch (error) {
     process.stderr.write(`${error.stack}\n`);
@@ -103,7 +107,44 @@ app.put('/profile/:userId', async (req, res) => {
       nickname,
     });
 
-    res.sendStatus(200);
+    res.send({
+      status: 200,
+      message: 'Updated successful',
+    });
+  } catch (error) {
+    process.stderr.write(`${error.stack}\n`);
+    res.status(500).send(error.message);
+  }
+});
+
+app.post('/api/users/:userId/favorite-characters', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const favoriteCharacter = req.body;
+    const addFavoriteCharacter = new AddFavoriteCharacter(new UserMongoRepository());
+    await addFavoriteCharacter.execute(userId, favoriteCharacter);
+
+    res.send({
+      status: 200,
+      message: 'Favorite character added successful',
+    });
+  } catch (error) {
+    process.stderr.write(`${error.stack}\n`);
+    res.status(500).send(error.message);
+  }
+});
+
+app.get('/api/users/:userId/favorite-characters', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const getAllFavoriteCharacters = new ListFavoriteCharacters(new UserMongoRepository());
+    const listFavoriteCharacters = await getAllFavoriteCharacters.execute(userId);
+
+    res.send({
+      status: 200,
+      message: 'success',
+      listFavoriteCharacters,
+    });
   } catch (error) {
     process.stderr.write(`${error.stack}\n`);
     res.status(500).send(error.message);
