@@ -4,64 +4,55 @@ const User = require('../../domain/user');
 const FavoriteCharacterSchema = new mongoose.Schema({
   id: {
     type: Number,
-    required: true,
   },
   name: {
     type: String,
-    required: true,
   },
   status: {
     type: String,
-    required: true,
   },
   species: {
     type: String,
-    required: true,
   },
   type: {
     type: String,
-    required: false,
   },
   gender: {
     type: String,
-    required: true,
   },
   origin: {
     name: {
       type: String,
-      required: true,
     },
     url: {
       type: String,
-      required: true,
     },
   },
   location: {
     name: {
       type: String,
-      required: true,
     },
     url: {
       type: String,
-      required: true,
     },
   },
   image: {
     type: String,
-    required: true,
   },
   episode: {
     type: [String],
-    required: true,
   },
   url: {
     type: String,
-    required: true,
   },
   created: {
     type: Date,
-    required: true,
   },
+});
+
+FavoriteCharacterSchema.add({
+  comment: { type: String },
+  qualification: { type: Number },
 });
 
 const UserSchema = new mongoose.Schema(
