@@ -11,7 +11,7 @@ const UpdateUser = require('../../application/updateUser');
 const AddFavoriteCharacter = require('../../application/addFavoriteCharacter');
 const ListFavoriteCharacters = require('../../application/listFavoriteCharacters');
 
-mongoose.connect('mongodb://mongo:27017/TheRickAndMortyDatabaseDemo', {
+mongoose.connect('mongodb://localhost:27017/TheRickAndMortyDatabaseDemo', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
