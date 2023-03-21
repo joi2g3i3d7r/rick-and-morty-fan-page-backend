@@ -32,7 +32,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
   try {
     const { fullname, email, nickname, password } = req.body;
     const salt = await bcrypt.genSalt(10);
@@ -56,7 +56,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const listUsers = new ListUsers(new UserMongoRepository());
@@ -96,7 +96,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.put('/profile/:userId', async (req, res) => {
+app.put('/api/profile/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
     const { fullname, nickname } = req.body;
